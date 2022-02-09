@@ -4,50 +4,33 @@ const auth = require("../middleware/auth");
 const Profile = require("../models/profile");
 const multer = require ('multer');
 
-const storageEngine = multer.diskStorage ({
-  destination: './public/uploads/',
-  filename: function (req, file, callback) {
-    callback (
-      null,
-      file.fieldname + '-' + Date.now () + path.extname (file.originalname)
-    );
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/uploads')
   },
-});
-const fileFilter = (req, file, callback) => {
-  let pattern = /jpg|png|svg/; // reqex
-
-  if (pattern.test (path.extname (file.originalname))) {
-    callback (null, true);
-  } else {
-    callback ('Error: not a valid file');
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, uniqueSuffix + '-' + file.originalname)
   }
-};
-
-// initialize multer
-const upload = multer ({
-storage: storageEngine,
-fileFilter: fileFilter,
-});
-
+})
+const upload = multer({ storage: storage, limits:{fileSize: 1000000} })
 router.get("/allprofile", auth, async (req, res) => {
   const profile = await Profile.find({ user: req.user.id });
   res.send(profile);
 });
-router.post("/addprofile", auth, upload.single('uploadedFile') ,async (req, res) => {
+router.post("/addprofile", auth, upload.single('image') ,async (req, res) => {
   try {
-    const { image, dateOfBirth, education, age } = req.body;
-    const newProfile = new Profile({
-      // image : req.file,
-      image,
+    const {dateOfBirth, education, age } = req.body;
+    const image = req.file.path
+    const newProfile = await Profile.create({
       dateOfBirth,
       education,
       age,
-      user: req.user.id,
-    });
-    const saveProfile = await newProfile.save();
-    res.json(saveProfile);
+      image
+    })
+    res.json(newProfile);
   } catch (error) {
-    res.send("sometging wrong in profile");
+    res.send(error);
   }
 });
 
