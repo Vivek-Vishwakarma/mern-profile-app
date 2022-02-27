@@ -1,11 +1,11 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-// import { useNavigate  } from "react-router-dom";
+import { useNavigate  } from "react-router-dom";
 import "../App.css";
 import Error from "./Error";
 const Login = () => {
-  // const history = useNavigate ()
+  const history = useNavigate ()
   const [user, setUser] = useState({ email: "", password: "" });
   const [errMessage, setErrMessage] = useState("");
   const [errors, setErrors] = useState(false);
@@ -17,7 +17,7 @@ const Login = () => {
         console.log(response);
         if (response.data.sucess) {
           localStorage.setItem("token" , response.data.token)
-          // history("/")
+          history("/profile")
         }
       })
       .catch((error) => {

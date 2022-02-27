@@ -41,21 +41,22 @@ const Addprofile = () => {
         formData,
         {
           headers: {
-            "x-auth-token":
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxZmU4NGViYzcwODkxMWUwODdlMWI2NCIsImlhdCI6MTY0NDA3MDEzOH0.RQgHFyKAEbGxg8Mdmg3FohyTrxnGr5hGff0RPMspkFY",
+            "x-auth-token": localStorage.getItem("token"),
           },
         }
       );
       console.log(response)
+      alert("Profile Added Sucessfully !!")
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <>
-      <Form encType="multipart/form-data" id="form">
+    <div className="container mt-4">
+    <h1 className="text-center  mt-4">Add Profile</h1>
+    <Form encType="multipart/form-data" id="form">
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>DOB</Form.Label>
+          <Form.Label>Date Of Birth : </Form.Label>
           <Form.Control
             onChange={handleChange}
             name="dateOfBirth"
@@ -65,30 +66,30 @@ const Addprofile = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Image</Form.Label>
+          <Form.Label>Image : </Form.Label>
           <Form.Control
             name="image"
             type="file"
             onChange={handleFile}
-            placeholder="image"
+            placeholder="Image"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>age</Form.Label>
+          <Form.Label>Age : </Form.Label>
           <Form.Control
             onChange={handleChange}
             name="age"
             type="number"
-            placeholder="age"
+            placeholder="Age"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>education</Form.Label>
+          <Form.Label>Education : </Form.Label>
           <Form.Control
             onChange={handleChange}
             name="education"
             type="text"
-            placeholder="edu"
+            placeholder="Education"
           />
         </Form.Group>
 
@@ -96,7 +97,7 @@ const Addprofile = () => {
           Add
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

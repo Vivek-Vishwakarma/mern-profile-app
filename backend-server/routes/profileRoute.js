@@ -14,10 +14,16 @@ const storage = multer.diskStorage({
   }
 })
 const upload = multer({ storage: storage, limits:{fileSize: 1000000} })
+
 router.get("/allprofile", auth, async (req, res) => {
-  const profile = await Profile.find({ user: req.user.id });
-  res.send(profile);
+  try {
+    const profile = await Profile.find({ user: req.user.id });
+    res.send(profile)
+  } catch (error) {
+    res.send(error)
+  }
 });
+
 router.post("/addprofile", auth, upload.single('image') ,async (req, res) => {
   try {
     const {dateOfBirth, education, age } = req.body;

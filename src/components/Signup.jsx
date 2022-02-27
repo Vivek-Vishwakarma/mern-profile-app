@@ -2,8 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import "../App.css";
+import { useNavigate  } from "react-router-dom";
 import Error from "./Error";
 const Signup = () => {
+  const history = useNavigate ()
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [errMessage, setErrMessage] = useState("");
   const [errors, setErrors] = useState(false);
@@ -13,13 +15,14 @@ const Signup = () => {
       .post("http://localhost:5000/api/auth/register", user)
       .then((response) => {
         console.log(response);
+        localStorage.setItem("token" , response.data.token)
+        history("/profile")
       })
       .catch((error) => {
         setErrors(true);
         setErrMessage(error.response.data.message);
         console.log(error.response.data.message);
       });
-
   };
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

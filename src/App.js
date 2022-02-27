@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Allusers from "./components/Allusers";
+import Addprofile from  "./components/Addprofile"
+import Profile from "./components/Profile";
 function App() {
   return (
     <>
@@ -16,6 +18,8 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/register" element={<Signup />} />
           <Route exact path="/allusers" element={<Allusers />} />
+          <Route exact path="/addprofile" element={<Addprofile />} />
+          <Route exact path="/profile" element={<Profile />} />
         </Routes>
       </Router>
     </>
