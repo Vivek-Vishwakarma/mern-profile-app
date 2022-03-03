@@ -1,9 +1,14 @@
 import React from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 
 const MyNav = () => {
+  const history = useNavigate()
+  const logout = () =>{
+    localStorage.removeItem("token");
+    history("/login")
+  }
   return (
     <Navbar bg="dark" variant="dark">
       <Container>
@@ -21,14 +26,15 @@ const MyNav = () => {
             All Users
           </Nav.Link>
           <div className="buttons">
-          <Button variant="success" className="mx-2" as={Link} to="/login">
+          {!localStorage.getItem("token") ? <Button variant="success" className="mx-2" as={Link} to="/login">
             Login
-          </Button>
+          </Button> : <Button variant="danger" className="mx-2" onClick={logout}>
+            Logout
+          </Button>}
           <Button variant="primary" className="mx-2" as={Link} to="/register">
             Sign Up
           </Button>
           </div>
-          
         </Nav>
       </Container>
     </Navbar>

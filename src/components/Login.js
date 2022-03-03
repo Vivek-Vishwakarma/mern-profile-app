@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useNavigate  } from "react-router-dom";
 import "../App.css";
@@ -27,6 +27,13 @@ const Login = () => {
       });
 
   };
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if(token){
+      history("/profile")
+    }
+  }, [])
+  
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
