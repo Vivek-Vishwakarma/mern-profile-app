@@ -40,8 +40,8 @@ const Profile = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      history("/login");
-      alert("Please login to view your profile !!");
+      history("/register");
+      alert("Please login or register to view your profile !!");
     }
     getProfile();
   }, [history,rerender]);
@@ -63,7 +63,7 @@ const Profile = () => {
                 <Card.Img
                   variant="top"
                   style={{ width: "150px", height: "150px" }}
-                  src={`http://localhost:5000/uploads/${element.image}`}
+                  src={`/uploads/${element.image}`}
                 />
                 <Card.Body>
                   <Card.Title>{element.name ? element.name : "Not Available"}</Card.Title>
