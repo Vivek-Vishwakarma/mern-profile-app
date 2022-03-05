@@ -37,7 +37,6 @@ router.post("/addprofile", auth, upload.single('image') ,async (req, res) => {
       name,
       user: req.user.id
     })
-    console.log(newProfile)
     res.send(newProfile);
   } catch (error) {
     res.send(error);

@@ -19,7 +19,7 @@ router.post("/register", async (req, res) => {
         email: email,
         password: passwordHash
       });
-      const token = jwt.sign({ id: user._id }, "hello");
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       res.send({sucess : true , token: token , user});
       // res.send({success : true , user});
     }
@@ -27,7 +27,7 @@ router.post("/register", async (req, res) => {
     res
       .status(400)
       .send({sucess : false ,error: true, message: "Something wrong with your creds" });
-    console.log(error);
+      console.log(error)
   }
 });
 router.post("/login", async (req, res) => {
@@ -43,14 +43,12 @@ router.post("/login", async (req, res) => {
       return res
         .status(400)
         .send({sucess : false , error: true, message: "Incorrect password" });
-    const token = jwt.sign({ id: user._id }, "hello");
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     res.send({sucess : true , token: token , name: user.name, email: user.email });
-    console.log(user);
   } catch (error) {
     res
       .status(400)
       .send({sucess : false , error: true, message: "cannot login something wrong" });
-    console.log(error);
   }
 });
 
