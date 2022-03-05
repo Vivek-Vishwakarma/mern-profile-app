@@ -12,14 +12,16 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
     if (user) {
-      res.status(400).send({sucess : false ,error: true, message: "User already exist" });
+      res.status(400).send({sucess : false ,error: true, message: "User already exist"});
     } else {
       user = await User.create({
         name: name,
         email: email,
         password: passwordHash
       });
-      res.send({success : true , user});
+      const token = jwt.sign({ id: user._id }, "hello");
+      res.send({sucess : true , token: token , user});
+      // res.send({success : true , user});
     }
   } catch (error) {
     res

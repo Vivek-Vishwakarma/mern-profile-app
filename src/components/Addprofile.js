@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const Addprofile = () => {
+  const history = useNavigate()
   const [profile, setProfile] = useState({
     education: "",
     dateOfBirth: "",
     age: "",
+    name: "",
     image: "",
   });
   const handleFile = (e) => {
@@ -34,6 +37,7 @@ const Addprofile = () => {
     formData.append("education", profile.education)
     formData.append("dateOfBirth", profile.dateOfBirth)
     formData.append("age", profile.age)
+    formData.append("name", profile.name)
     console.log(formData)
     try {
       const response = await axios.post(
@@ -47,21 +51,31 @@ const Addprofile = () => {
       );
       console.log(response)
       alert("Profile Added Sucessfully !!")
+      history("/")
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="container mt-4">
-    <h1 className="text-center  mt-4">Add Profile</h1>
+    <div className="container my-4">
+    <h1 className="text-center  my-4">Add Profile</h1>
     <Form encType="multipart/form-data" id="form">
+    <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Name : </Form.Label>
+          <Form.Control
+            onChange={handleChange}
+            name="name"
+            type="text"
+            placeholder="Enter name ..."
+          />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Date Of Birth : </Form.Label>
           <Form.Control
             onChange={handleChange}
             name="dateOfBirth"
             type="date"
-            placeholder="Enter DOB"
+            placeholder="Enter DOB ..."
           />
         </Form.Group>
 
@@ -71,7 +85,7 @@ const Addprofile = () => {
             name="image"
             type="file"
             onChange={handleFile}
-            placeholder="Image"
+            placeholder="Image ..."
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -80,7 +94,7 @@ const Addprofile = () => {
             onChange={handleChange}
             name="age"
             type="number"
-            placeholder="Age"
+            placeholder="Age ..."
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -89,7 +103,7 @@ const Addprofile = () => {
             onChange={handleChange}
             name="education"
             type="text"
-            placeholder="Education"
+            placeholder="Education ..."
           />
         </Form.Group>
 
@@ -102,3 +116,6 @@ const Addprofile = () => {
 };
 
 export default Addprofile;
+
+
+

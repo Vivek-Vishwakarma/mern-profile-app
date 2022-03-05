@@ -17,7 +17,7 @@ const Login = () => {
         console.log(response);
         if (response.data.sucess) {
           localStorage.setItem("token" , response.data.token)
-          history("/profile")
+          history("/")
         }
       })
       .catch((error) => {
@@ -30,9 +30,9 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem("token")
     if(token){
-      history("/profile")
+      history("/");
     }
-  }, [])
+  }, [history])
   
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });

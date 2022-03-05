@@ -27,18 +27,32 @@ router.get("/allprofile", auth, async (req, res) => {
 
 router.post("/addprofile", auth, upload.single('image') ,async (req, res) => {
   try {
-    const {dateOfBirth, education, age } = req.body;
+    const {dateOfBirth, education, age, name} = req.body;
     const image = req.file.filename
     const newProfile = await Profile.create({
       dateOfBirth,
       education,
       age,
-      image
+      image,
+      name,
+      user: req.user.id
     })
-    res.json(newProfile);
+    console.log(newProfile)
+    res.send(newProfile);
   } catch (error) {
     res.send(error);
   }
 });
+router.delete("/delete/:id",auth, async (req,res) => {
+  try {
+    const profile = await Profile.findByIdAndDelete(req.params.id);
+    if (!profile) {
+      return res.status(404).send("Profile not found");
+    }
+    res.send({ success: "profile has been detleted", profile : profile});
+  } catch (error) {
+    res.status(500).send(error)
+  }
+})
 
 module.exports = router;

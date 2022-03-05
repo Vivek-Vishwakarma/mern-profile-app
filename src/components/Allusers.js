@@ -1,5 +1,4 @@
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 const Allusers = () => {
@@ -20,21 +19,20 @@ const Allusers = () => {
   }, []);
   return (
     <>
-      <h1 className="text-center mt-4">All Users</h1>
-      <div className="container d-flex">
+      <h1 className="text-center my-4">All Users</h1>
+      <div className="container d-flex flex-wrap my-4">
         {user &&
           user.map((element) => {
             return (
-              <Card key={element._id} style={{ width: "18rem" }}>
+              <Card className="mx-4" key={element._id} style={{ width: "16rem" }}>
                 <Card.Body>
                   <Card.Title>{element.name}</Card.Title>
                   <Card.Text>
-                    {element.email}
+                    Email : {element.email}
                   </Card.Text>
                   <Card.Text>
-                    {element.createdAt.split('T')[0]}
+                    Joined on : {element.createdAt.split('T')[0]}
                   </Card.Text>
-                  <Button variant="primary">View</Button>
                 </Card.Body>
               </Card>
             );

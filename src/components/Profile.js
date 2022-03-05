@@ -5,7 +5,26 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const history = useNavigate();
-  const [user, setUser] = useState();
+  const [rerender, setRerender] = useState(false);
+  const [user, setUser] = useState([]);
+  const deleteProfile = async (e) => {
+    await axios
+      .delete(`http://localhost:5000/api/profile/delete/${e.target.value}`, {
+        headers: {
+          "x-auth-token": localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setRerender(!rerender);
+        alert("Profile deleted sucessfully");
+        history("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log(e.target.value);
+  };
   const getProfile = async (e) => {
     await axios
       .get("http://localhost:5000/api/profile/allprofile", {
@@ -14,7 +33,6 @@ const Profile = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         setUser(response.data);
       })
       .catch((error) => {
@@ -28,37 +46,48 @@ const Profile = () => {
       alert("Please login to view your profile !!");
     }
     getProfile();
-  }, []);
+  }, [history,rerender]);
 
   return (
     <div className="container profileDiv">
-      <h1 className="text-center mt-4">This is Profile Page</h1>
-      <div className="container d-flex">
-        {user &&
+      <h1 className="text-center my-4">This is Profile Page</h1>
+      <Button as={Link} className="my-4" to="/addprofile" variant="success">
+        Add Profile
+      </Button>
+      <div className="container d-flex flex-wrap">
+        {user && user.length === 0 ? (
+          <p>No Profile to View</p>
+        ) : (
+          user &&
           user.map((element) => {
             return (
-              <Card key={element._id} style={{ width: "18rem" }}>
-                <Card.Img variant="top" src={`http://localhost:5000/uploads/${element.image}`}/>
+              <Card key={element._id} style={{ width: "14rem" }}>
+                <Card.Img
+                  variant="top"
+                  style={{ width: "150px", height: "150px" }}
+                  src={`http://localhost:5000/uploads/${element.image}`}
+                />
                 <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
+                  <Card.Title>{element.name ? element.name : "Not Available"}</Card.Title>
+                  <Card.Text>Age : {element.age}</Card.Text>
                   <Card.Text>
-                    Age : {element.age}
+                    Date of Birth : {element.dateOfBirth.split("T")[0]}
                   </Card.Text>
-                  <Card.Text>
-                    Date of Birth : {element.dateOfBirth.split('T')[0]}
-                  </Card.Text>
-                  <Card.Text>
-                    Education : {element.education}
-                  </Card.Text>
-                  <Button variant="primary">Go somewhere</Button>
+                  <Card.Text>Education : {element.education}</Card.Text>
+                  <Button
+                    variant="danger"
+                    value={element._id}
+                    onClick={deleteProfile}
+                  >
+                    Delete
+                  </Button>
                 </Card.Body>
               </Card>
             );
-          })}
+          })
+        )}
       </div>
-      <Button as={Link} to="/addprofile" variant="success">
-        Add Profile
-      </Button>
+      
     </div>
   );
 };

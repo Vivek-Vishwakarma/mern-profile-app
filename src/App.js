@@ -3,7 +3,6 @@ import MyNav from "./components/MyNav";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Login from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
 import Signup from "./components/Signup";
 import Allusers from "./components/Allusers";
 import Addprofile from  "./components/Addprofile"
@@ -15,11 +14,11 @@ function App() {
         <MyNav />
         <Routes>
           <Route exact path="/login" element={<Login />} />
-          <Route exact path="/" element={<Home />} />
+          <Route exact path="/" element={<Profile />} />
           <Route exact path="/register" element={<Signup />} />
           <Route exact path="/allusers" element={<Allusers />} />
           <Route exact path="/addprofile" element={<Addprofile />} />
-          <Route exact path="/profile" element={<Profile />} />
+          {/* <Route exact path="/profile" element={<Profile />} /> */}
         </Routes>
       </Router>
     </>

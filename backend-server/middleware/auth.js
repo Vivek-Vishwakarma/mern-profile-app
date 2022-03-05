@@ -7,8 +7,7 @@ const auth = (req, res, next) => {
       return res.status(401).send("auth denied");
     }
     const decoded = jwt.verify(token, "hello");
-    req.user = decoded.id;
-    console.log(req.user)
+    req.user = decoded;
     next()
   } catch (error) {
     res.send("error occoured");

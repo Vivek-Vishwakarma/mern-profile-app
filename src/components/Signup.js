@@ -14,9 +14,9 @@ const Signup = () => {
     await axios
       .post("http://localhost:5000/api/auth/register", user)
       .then((response) => {
-        console.log(response);
+        console.log(response)
         localStorage.setItem("token" , response.data.token)
-        history("/profile")
+        history("/")
       })
       .catch((error) => {
         setErrors(true);
