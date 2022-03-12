@@ -59,7 +59,7 @@ const Profile = () => {
           user &&
           user.map((element) => {
             return (
-              <Card key={element._id} style={{ width: "14rem" }}>
+              <Card key={element._id} style={{ width: "14rem", margin : "5px 20px" }}>
                 <Card.Img
                   variant="top"
                   style={{ width: "150px", height: "150px" }}
