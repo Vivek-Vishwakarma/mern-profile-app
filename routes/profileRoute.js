@@ -24,7 +24,14 @@ router.get("/allprofile", auth, async (req, res) => {
     res.send(error)
   }
 });
-
+router.get("/profile/:id", async (req, res) => {
+  try {
+    const profile = await Profile.find({ user: req.params.id });
+    res.send(profile)
+  } catch (error) {
+    res.send(error)
+  }
+});
 router.post("/addprofile", auth, upload.single('image') ,async (req, res) => {
   try {
     const {dateOfBirth, education, age, name} = req.body;
